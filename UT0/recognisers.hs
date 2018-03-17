@@ -1,5 +1,14 @@
 
 {--
+	Usar para testear
+--}
+
+testRecogniser::IO()
+testRecogniser = putStr $ concat $ map (\x -> show(x) ++ "\t=  " ++ show(recogniser x) ++ "\n") input
+  where
+    input = [".l.","()","1","+",")()","(1(2))","1*2*3+8+7-(8*8/2-(2*2))"]
+
+{--
 	Mi idea es ver primero si la cadena pertenece al lenguaje o no, es decir si todos sus simbolos estan o no.
 	Luego quitar los espacio
 	Antes de iterar String verificar:
@@ -22,10 +31,10 @@ aux [] n = (n==0)
 
 aux (x:xs:xss) n
 	|no_lenguaje = False
-	|(elem x operator) && (elem xs ['0'..'9']) = aux (xs:xss) n
+	|(elem x operator) && (elem xs ('(':['0'..'9'])) = aux (xs:xss) n
 	|(x == '(') && (notElem xs (operator++[')'])) = aux (xs:xss) (n+1)
 	|(x == ')') = aux (xs:xss) (n-1)
-	|(elem x ['0'..'9']) = aux (xs:xss) n
+	|(elem x ['0'..'9']) && (xs/='(') = aux (xs:xss) n
 	|otherwise = False
 		where
 			no_lenguaje = not ((elem x alphabet) && (elem xs alphabet))
