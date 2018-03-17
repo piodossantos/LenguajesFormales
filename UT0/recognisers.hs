@@ -6,45 +6,40 @@
 testRecogniser::IO()
 testRecogniser = putStr $ concat $ map (\x -> show(x) ++ "\t=  " ++ show(recogniser x) ++ "\n") input
   where
-    input = [".l.","()","1","+",")()","(1(2))","1*2*3+8+7-(8*8/2-(2*2))"]
+    input = ["-9","4--3","(-9)*-16*(-6+3)","+9","9-","((9)",".","()","1","+",")()","(1(2))","1*2*3+8+7-(8*8/2-(2*2))"]
 
-{--
-	Mi idea es ver primero si la cadena pertenece al lenguaje o no, es decir si todos sus simbolos estan o no.
-	Luego quitar los espacio
-	Antes de iterar String verificar:
-		#parentesis_abiertos = #parentesis cerrado
-		#numeros > #operadores
-	Despues hacer magia para ver si tiene sentido o no.
-	iterar el string y ver en cada caso que cumpla o no, leyendo de derecha a izquierda.
-		* si hay ( entonces tiene q seguirle un numero.
-		* si hay un numero no importa que venga despues
-		* si hay un operador antes y despues tiene q haber un numero
-		* si hay ) entonces no importa que venga despues.
 
---}
 -- Devuelve True si es valido, False si no.
 recogniser::String->Bool
-recogniser s = if (head s)==')' then False else aux (removeBlanks s) 0
-
+recogniser s = if (elem (head s) elems) then False else aux (removeBlanks s) 0 -- chequea el comienzo del string y quita espacios para facilitar validacion
+  where
+    elems = ['+','*','/',')']
+-- Funcion para recorrer  recursivamente la entrada
 aux::String->Int->Bool
+
+--Chequea que la cantidad de parentesis abiertos es igual a la de cerrados.
 aux [] n = (n==0)
 
+--Paso para considerar un elemento y su siguiente.
 aux (x:xs:xss) n
-	|no_lenguaje = False
-	|(elem x operator) && (elem xs ('(':['0'..'9'])) = aux (xs:xss) n
-	|(x == '(') && (notElem xs (operator++[')'])) = aux (xs:xss) (n+1)
-	|(x == ')') = aux (xs:xss) (n-1)
+	|no_lenguaje = False -- x o xs no son del lenguaje
+  |x == '-' = if (xs ==')') then False else aux (xs:xss) n -- aceptar numeros negativos
+	|(elem x operator) && (elem xs (['(','-']++['0'..'9'])) = aux (xs:xss) n -- si hay un operador que no es - , entonces verifica que lo que le sigue sea valido
+	|(x == '(') && (notElem xs ((tail operator)++[')'])) = aux (xs:xss) (n+1) -- verifica que venga despues de '(' venga algo que no sea + * / )
+	|(x == ')') = aux (xs:xss) (n-1) -- si viene ) no pasa nada solo resta parentesis
 	|(elem x ['0'..'9']) && (xs/='(') = aux (xs:xss) n
 	|otherwise = False
 		where
 			no_lenguaje = not ((elem x alphabet) && (elem xs alphabet))
-			operator = ['+','*','-','/']
+			operator = ['-','+','*','/']
 			alphabet = ['0'..'9'] ++ operator ++ ['(',')']
 
+--valida que el ultimo elemento sea un numero o un parentesis
 aux (x:[]) n
 	|(elem x ['0'..'9']) = aux [] n
 	|(x==')') = aux [] (n-1)
 
+--si no encaja en el patron
 aux _ _ = False
 
 
