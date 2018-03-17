@@ -12,7 +12,7 @@ genRandomString:: IO String
 genRandomString  = do
 	g <- newStdGen
 	g1 <- newStdGen
-	return (show (fst(gen (fst(randomR(0::Int,20::Int) g)) g g1))) 
+	return (show (fst(gen (fst(randomR(0::Int,20::Int) g)) g g1)))
 
 {--
 	*Recibe la altura que tendra el subarbol, cuando es 0 entonces se esta en una hoja.
@@ -24,7 +24,7 @@ gen 0 g _= ((Literal n),g2)
 	where
 		(n,g2) = randomR(0,100) g
 --paso recursivo
-gen x generator1 generator2 
+gen x generator1 generator2
 	|x <0 = error "X debe ser mayor a 0"
 	|condition == 0 = ((Op (ops!!numberOperator) (fst(gen (x-1) g3 generator2)) (fst(gen (x-1) generator2 g3))),g3)
 	|condition == 1 = gen 0 generator2 g3 --Llamo al paso base
