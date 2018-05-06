@@ -12,8 +12,8 @@ tokens :-
   (\:|\,|\[|\]|\{|\}) {\s -> (Symbol s)}
   (true|false|null) {\s -> (Special s)}
   ([0-9]+(\.[0-9]+)?([eE](\+|\-)?[0-9]+)?) |
-  \"([^\"\\\/\b\f\n\r\t\u]|
-  \\(\"|\\|\/|b|f|n|r|t|u))*\") {\s -> (Literal s)}
+  \"([^\"\\\/\b\f\n\r\t\u] |
+  \\(\"|\\|\/|b|f|n|r|t|u)*\") {\s -> (Literal s)}
 
 {
 data Token =
@@ -33,9 +33,10 @@ data Token =
 -}
 
 test1 = ["true","false","null","{","}","[","]",":",",","73","9.3","9.0","9.0","9e14","hola carola","'ho'","\n"]
-test2:: [[Token]]
-test2 = map (\x -> (alexScanTokens x)) test1
-
+test2:: [Token]
+test2 = concat $ map (\x -> (alexScanTokens x)) test1
+showInLine:: [Token] -> IO()
+showInLine y = putStr $ concat $ map (\x-> show(x) ++ "\n") y
 main = do
   s <- getContents
   return (alexScanTokens s)
