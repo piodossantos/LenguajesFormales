@@ -9,11 +9,15 @@ $alpha = [a-zA-Z]		-- alphabetic characters
 
 tokens :-
   $white+				;
-  (\:|\,|\[|\]|\{|\}) {\s -> (Symbol s)}
+  (\[) {\s -> (LBraces s)}
+  (\]) {\s -> (RBraces s)}
+  (\,) {\s -> (Comma s)}
+  (\:) {\s -> (Colon s)}
+  (\{) {\s -> (LCurly s)}
+  (\}) {\s -> (RCurly s)}
   (true|false|null) {\s -> (Special s)}
-  (([0-9]+(\.[0-9]+)?([eE](\+|\-)?[0-9]+)?) |
-  \"([^\"\\\/\b\f\n\r\t\u] |
-  \\(\"|\\|\/|b|f|n|r|t|u))*\") {\s -> (Literal s)}
+  (\-)?([0-9]+(\.[0-9]+)?([eE](\+|\-)?[0-9]+)?) {\s -> (Literal s)}
+ (\"([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\"){\s -> (Chain s)}
 
 {
 
@@ -23,7 +27,13 @@ tokens :-
 data Token =
   Special String|
   Literal String|
-  Symbol String
+  Chain String |
+  LBraces String|
+  RBraces String|
+  Comma String|
+  RCurly String|
+  LCurly String|
+  Colon String
   deriving (Eq,Show)
 
 -- Entradas para testear

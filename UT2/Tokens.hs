@@ -16,256 +16,6 @@ import Data.Array.Base (unsafeAt)
 import Array
 #endif
 {-# LINE 1 "templates/wrappers.hs" #-}
-{-# LINE 1 "templates/wrappers.hs" #-}
-{-# LINE 1 "<built-in>" #-}
-{-# LINE 1 "<command-line>" #-}
-{-# LINE 9 "<command-line>" #-}
-# 1 "/usr/include/stdc-predef.h" 1 3 4
-
-# 17 "/usr/include/stdc-predef.h" 3 4
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 9 "<command-line>" #-}
-{-# LINE 1 "/usr/lib/ghc/include/ghcversion.h" #-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 9 "<command-line>" #-}
-{-# LINE 1 "/tmp/ghc551d_0/ghc_2.h" #-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 9 "<command-line>" #-}
-{-# LINE 1 "templates/wrappers.hs" #-}
 -- -----------------------------------------------------------------------------
 -- Alex wrapper code.
 --
@@ -278,7 +28,21 @@ import Array
 
 
 import Data.Word (Word8)
-{-# LINE 28 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import Data.Char (ord)
 import qualified Data.Bits
@@ -311,13 +75,84 @@ type Byte = Word8
 -- -----------------------------------------------------------------------------
 -- The input type
 
-{-# LINE 79 "templates/wrappers.hs" #-}
 
-{-# LINE 102 "templates/wrappers.hs" #-}
 
-{-# LINE 120 "templates/wrappers.hs" #-}
 
-{-# LINE 138 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- -----------------------------------------------------------------------------
 -- Token positions
@@ -329,18 +164,236 @@ type Byte = Word8
 -- `move_pos' calculates the new position after traversing a given character,
 -- assuming the usual eight character tab stops.
 
-{-# LINE 161 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- -----------------------------------------------------------------------------
 -- Default monad
 
-{-# LINE 274 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- -----------------------------------------------------------------------------
 -- Monad (with ByteString input)
 
-{-# LINE 379 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- -----------------------------------------------------------------------------
@@ -373,9 +426,35 @@ alexGetByte (_,[],(c:s)) = case utf8Encode c of
 -- -----------------------------------------------------------------------------
 -- Basic wrapper, ByteString version
 
-{-# LINE 425 "templates/wrappers.hs" #-}
 
-{-# LINE 440 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- -----------------------------------------------------------------------------
@@ -383,13 +462,32 @@ alexGetByte (_,[],(c:s)) = case utf8Encode c of
 
 -- Adds text positions to the basic model.
 
-{-# LINE 457 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
 
 
 -- -----------------------------------------------------------------------------
 -- Posn wrapper, ByteString version
 
-{-# LINE 473 "templates/wrappers.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 -- -----------------------------------------------------------------------------
@@ -397,10 +495,23 @@ alexGetByte (_,[],(c:s)) = case utf8Encode c of
 
 -- For compatibility with previous versions of Alex, and because we can.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 alex_tab_size :: Int
 alex_tab_size = 8
 alex_base :: Array Int Int
-alex_base = listArray (0 :: Int, 30)
+alex_base = listArray (0 :: Int, 36)
   [ -8
   , -95
   , -108
@@ -420,29 +531,35 @@ alex_base = listArray (0 :: Int, 30)
   , 488
   , 0
   , -94
+  , 734
   , 8
-  , 696
-  , 706
-  , 756
+  , 700
+  , 710
+  , 721
   , -93
   , 22
   , 0
   , 0
   , 0
-  , 722
-  , 732
-  , 758
+  , 0
+  , 0
+  , 0
+  , 0
+  , 731
+  , 741
+  , 753
+  , 0
   ]
 
 alex_table :: Array Int Int
-alex_table = listArray (0 :: Int, 1013)
+alex_table = listArray (0 :: Int, 1008)
   [ 0
-  , 24
-  , 24
-  , 24
-  , 24
-  , 24
-  , 26
+  , 25
+  , 25
+  , 25
+  , 25
+  , 25
+  , 32
   , 1
   , 1
   , 13
@@ -450,92 +567,92 @@ alex_table = listArray (0 :: Int, 1013)
   , 3
   , 2
   , 0
+  , 24
+  , 32
+  , 19
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 25
+  , 0
+  , 19
+  , 0
+  , 0
+  , 19
+  , 0
+  , 25
+  , 25
+  , 25
+  , 25
+  , 25
+  , 28
   , 23
+  , 0
+  , 0
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 29
+  , 22
+  , 0
+  , 22
+  , 25
+  , 0
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 19
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 19
+  , 0
+  , 0
   , 26
-  , 22
+  , 19
+  , 27
   , 0
   , 0
   , 0
   , 0
   , 0
   , 0
-  , 0
-  , 24
-  , 0
-  , 22
-  , 0
-  , 0
-  , 22
-  , 0
-  , 24
-  , 24
-  , 24
-  , 24
-  , 24
-  , 25
-  , 0
-  , 0
-  , 0
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 25
-  , 21
-  , 0
-  , 21
-  , 24
-  , 0
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 22
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 22
-  , 0
-  , 0
-  , 25
-  , 22
-  , 25
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 22
+  , 19
   , 0
   , 5
   , 0
-  , 22
+  , 19
   , 0
-  , 22
-  , 22
+  , 19
+  , 0
   , 0
   , 0
   , 4
@@ -551,9 +668,9 @@ alex_table = listArray (0 :: Int, 1013)
   , 0
   , 0
   , 0
-  , 25
+  , 30
   , 0
-  , 25
+  , 31
   , 16
   , -1
   , -1
@@ -1180,90 +1297,73 @@ alex_table = listArray (0 :: Int, 1013)
   , -1
   , -1
   , -1
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
   , -1
-  , -1
-  , -1
-  , 0
-  , -1
-  , -1
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 28
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 29
-  , 27
-  , 19
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
   , 0
   , 0
   , -1
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 36
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 33
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 34
+  , 21
   , 20
-  , 0
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 30
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 19
-  , 0
-  , 0
-  , 0
-  , 19
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
+  , 35
   , 0
   , 0
   , 0
@@ -1275,12 +1375,7 @@ alex_table = listArray (0 :: Int, 1013)
   , 0
   , 0
   , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
+  , 20
   , 0
   , 0
   , 0
@@ -1290,13 +1385,7 @@ alex_table = listArray (0 :: Int, 1013)
   , 0
   , 0
   , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 0
-  , 19
-  , 0
+  , 20
   , 0
   , 0
   , 0
@@ -1309,10 +1398,16 @@ alex_table = listArray (0 :: Int, 1013)
   , 0
   , 0
   , 0
-  , -1
   , 0
   , 0
   , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 20
   , 0
   , 0
   , 0
@@ -1450,10 +1545,27 @@ alex_table = listArray (0 :: Int, 1013)
   , -1
   , 0
   , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
+  , 0
   ]
 
 alex_check :: Array Int Int
-alex_check = listArray (0 :: Int, 1013)
+alex_check = listArray (0 :: Int, 1008)
   [ -1
   , 9
   , 10
@@ -1491,7 +1603,7 @@ alex_check = listArray (0 :: Int, 1013)
   , 12
   , 13
   , 44
-  , -1
+  , 45
   , -1
   , -1
   , 48
@@ -1553,7 +1665,7 @@ alex_check = listArray (0 :: Int, 1013)
   , 114
   , -1
   , 116
-  , 117
+  , -1
   , -1
   , -1
   , 110
@@ -2198,31 +2310,9 @@ alex_check = listArray (0 :: Int, 1013)
   , 253
   , 254
   , 255
-  , 48
-  , 49
-  , 50
-  , 51
-  , 52
-  , 53
-  , 54
-  , 55
-  , 56
-  , 57
-  , 48
-  , 49
-  , 50
-  , 51
-  , 52
-  , 53
-  , 54
-  , 55
-  , 56
-  , 57
-  , 8
-  , 9
   , 10
   , -1
-  , 12
+  , -1
   , 13
   , 48
   , 49
@@ -2245,21 +2335,38 @@ alex_check = listArray (0 :: Int, 1013)
   , 56
   , 57
   , 34
-  , 69
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , 47
+  , 48
+  , 49
+  , 50
+  , 51
+  , 52
+  , 53
+  , 54
+  , 55
+  , 56
+  , 57
+  , 48
+  , 49
+  , 50
+  , 51
+  , 52
+  , 53
+  , 54
+  , 55
+  , 56
+  , 57
+  , 48
+  , 49
+  , 50
+  , 51
+  , 52
+  , 53
+  , 54
+  , 55
+  , 56
+  , 57
   , 46
-  , -1
+  , 69
   , 48
   , 49
   , 50
@@ -2277,28 +2384,11 @@ alex_check = listArray (0 :: Int, 1013)
   , -1
   , -1
   , -1
-  , 101
+  , -1
   , -1
   , -1
   , -1
   , 69
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
   , -1
   , -1
   , -1
@@ -2308,11 +2398,6 @@ alex_check = listArray (0 :: Int, 1013)
   , -1
   , -1
   , -1
-  , -1
-  , -1
-  , -1
-  , -1
-  , -1
   , 101
   , -1
   , -1
@@ -2327,10 +2412,15 @@ alex_check = listArray (0 :: Int, 1013)
   , -1
   , -1
   , -1
-  , 117
   , -1
   , -1
   , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , 101
   , -1
   , -1
   , -1
@@ -2468,10 +2558,27 @@ alex_check = listArray (0 :: Int, 1013)
   , 255
   , -1
   , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
   ]
 
 alex_deflt :: Array Int Int
-alex_deflt = listArray (0 :: Int, 30)
+alex_deflt = listArray (0 :: Int, 36)
   [ -1
   , -1
   , -1
@@ -2486,15 +2593,21 @@ alex_deflt = listArray (0 :: Int, 30)
   , -1
   , -1
   , -1
-  , 22
+  , 19
   , -1
-  , 22
-  , 22
+  , 19
+  , 19
+  , -1
+  , 19
   , -1
   , -1
   , -1
   , -1
-  , 22
+  , -1
+  , -1
+  , -1
+  , -1
+  , -1
   , -1
   , -1
   , -1
@@ -2505,7 +2618,7 @@ alex_deflt = listArray (0 :: Int, 30)
   , -1
   ]
 
-alex_accept = listArray (0 :: Int, 30)
+alex_accept = listArray (0 :: Int, 36)
   [ AlexAccNone
   , AlexAccNone
   , AlexAccNone
@@ -2530,7 +2643,13 @@ alex_accept = listArray (0 :: Int, 30)
   , AlexAccNone
   , AlexAccNone
   , AlexAccNone
+  , AlexAccNone
   , AlexAccSkip
+  , AlexAcc 10
+  , AlexAcc 9
+  , AlexAcc 8
+  , AlexAcc 7
+  , AlexAcc 6
   , AlexAcc 5
   , AlexAcc 4
   , AlexAcc 3
@@ -2539,16 +2658,21 @@ alex_accept = listArray (0 :: Int, 30)
   , AlexAcc 0
   ]
 
-alex_actions = array (0 :: Int, 6)
-  [ (5,alex_action_1)
-  , (4,alex_action_2)
-  , (3,alex_action_3)
-  , (2,alex_action_3)
-  , (1,alex_action_3)
-  , (0,alex_action_3)
+alex_actions = array (0 :: Int, 11)
+  [ (10,alex_action_1)
+  , (9,alex_action_2)
+  , (8,alex_action_3)
+  , (7,alex_action_4)
+  , (6,alex_action_5)
+  , (5,alex_action_6)
+  , (4,alex_action_7)
+  , (3,alex_action_8)
+  , (2,alex_action_8)
+  , (1,alex_action_8)
+  , (0,alex_action_9)
   ]
 
-{-# LINE 18 "Tokens.x" #-}
+{-# LINE 22 "Tokens.x" #-}
 
 
 {-
@@ -2557,7 +2681,13 @@ alex_actions = array (0 :: Int, 6)
 data Token =
   Special String|
   Literal String|
-  Symbol String
+  Chain String |
+  LBraces String|
+  RBraces String|
+  Comma String|
+  RCurly String|
+  LCurly String|
+  Colon String
   deriving (Eq,Show)
 
 -- Entradas para testear
@@ -2582,263 +2712,22 @@ showInLine y = putStr $ concat $ map (\x-> show(x) ++ "\n") y
 getTokenJSON::String->IO()
 getTokenJSON x = showInLine $ alexScanTokens $ x
 
+{-
+  Espera entradas por teclado y devuelve sus tokens.
+-}
 main = do
   s <- getContents
   return (alexScanTokens s)
 
-alex_action_1 = \s -> (Symbol s)
-alex_action_2 = \s -> (Special s)
-alex_action_3 = \s -> (Literal s)
-{-# LINE 1 "templates/GenericTemplate.hs" #-}
-{-# LINE 1 "templates/GenericTemplate.hs" #-}
-{-# LINE 1 "<built-in>" #-}
-{-# LINE 1 "<command-line>" #-}
-{-# LINE 8 "<command-line>" #-}
-# 1 "/usr/include/stdc-predef.h" 1 3 4
-
-# 17 "/usr/include/stdc-predef.h" 3 4
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 8 "<command-line>" #-}
-{-# LINE 1 "/usr/lib/ghc/include/ghcversion.h" #-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 8 "<command-line>" #-}
-{-# LINE 1 "/tmp/ghc8a9b_0/ghc_2.h" #-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{-# LINE 8 "<command-line>" #-}
+alex_action_1 = \s -> (LBraces s)
+alex_action_2 = \s -> (RBraces s)
+alex_action_3 = \s -> (Comma s)
+alex_action_4 = \s -> (Colon s)
+alex_action_5 = \s -> (LCurly s)
+alex_action_6 = \s -> (RCurly s)
+alex_action_7 = \s -> (Special s)
+alex_action_8 = \s -> (Literal s)
+alex_action_9 = \s -> (Chain s)
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 -- -----------------------------------------------------------------------------
 -- ALEX TEMPLATE
@@ -2849,19 +2738,101 @@ alex_action_3 = \s -> (Literal s)
 -- -----------------------------------------------------------------------------
 -- INTERNALS and main scanner engine
 
-{-# LINE 21 "templates/GenericTemplate.hs" #-}
 
-{-# LINE 51 "templates/GenericTemplate.hs" #-}
 
-{-# LINE 72 "templates/GenericTemplate.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 alexIndexInt16OffAddr arr off = arr ! off
 
 
-{-# LINE 93 "templates/GenericTemplate.hs" #-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 alexIndexInt32OffAddr arr off = arr ! off
 
 
-{-# LINE 105 "templates/GenericTemplate.hs" #-}
+
+
+
+
+
+
+
+
+
 quickIndex arr i = arr ! i
 
 
@@ -2993,3 +2964,4 @@ alexRightContext (sc) user__ _ _ input__ =
         -- TODO: there's no need to find the longest
         -- match when checking the right context, just
         -- the first match will do.
+
