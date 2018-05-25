@@ -4,9 +4,9 @@
 - alex
 
 # Run parser
-> ./run.sh
-Paste json to parse
-Press control + D to stop reading from line
+> ./run.sh <br />
+Paste json to parse <br />
+Press control + D to stop reading from line <br />
 
 # If problems are present
 
