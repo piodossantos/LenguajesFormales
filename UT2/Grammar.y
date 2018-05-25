@@ -9,30 +9,35 @@ import Data.Map
 %error { parseError }
 
 %token
-    'str' { Chain }
-    'number'  {Literal} }
-    'boolean' { Truthy }
-    ','' { Comma }
+    str { Chain }
+    number  {Literal }
+    boolean { Truthy }
+    ',' { Comma }
     ':' { Colon }
     '{' { LCurly }
     '}' { RCurly }
     '[' { LBraces }
     ']' { RBraces }
-    'null' {NullB}
+    null {NullB}
 
 
+JsonG : null { GNull }
+    | str            { GString $1 }
+    | number           { GNumber $1::Double }
+    | boolean            { GBoolean $1::Bool }
+    | '[' Elem ']' {GList $2}
+    | '['']' {GList []}
+    | '{''}' {GObject empty}
+    | '{' Obj '}' {GObject $2}
 
-Json : let var '=' Exp in Exp { Let $2 $4 $6 }
-    | Exp '+' Exp            { Plus $1 $3 }
-    | Exp '-' Exp            { Minus $1 $3 }
-    | Exp '*' Exp            { Times $1 $3 }
-    | Exp '/' Exp            { Div $1 $3 }
-    | '(' Exp ')'            { $2 }
-    | '-' Exp %prec NEG      { Negate $2 }
-    | int                    { Int $1 }
-    | var                    { Var $1 }
 
-{
+Elem : JsonG  { [$1] }
+    | Elem ',' JsonG {$1 ++ [$3]}
+
+ 
+Obj : str ':' JsonG {(Map $1 $3)}
+    | Obj ',' str ':' JsonG { insert $3 $5 $1 }
+
 
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
@@ -45,3 +50,4 @@ data JSON= GString String|
     GNull|
     GObject (Map String JSON)
     deriving (Show,Eq)
+}
