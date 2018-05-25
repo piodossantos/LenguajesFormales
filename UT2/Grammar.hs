@@ -302,6 +302,13 @@ data JSON= GString String|
     GNull|
     GObject (Data.Map.Map String JSON)
     deriving (Show,Eq)
+
+main = do
+  s <- getContents
+  return $ parseCalc (alexScanTokens s)
+
+
+parseJson str =  parseCalc (alexScanTokens str)
 {-# LINE 1 "templates\GenericTemplate.hs" #-}
 {-# LINE 1 "templates\\\\GenericTemplate.hs" #-}
 {-# LINE 1 "<built-in>" #-}

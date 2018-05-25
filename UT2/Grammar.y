@@ -53,4 +53,12 @@ data JSON= GString String|
     GNull|
     GObject (Data.Map.Map String JSON)
     deriving (Show,Eq)
+
+main = do
+  s <- getContents
+  return $ parseCalc (alexScanTokens s)
+
+
+parseJson str =  parseCalc (alexScanTokens str)
 }
+

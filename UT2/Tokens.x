@@ -65,7 +65,5 @@ getTokenJSON x = showInLine $ alexScanTokens $ x
 {-
   Espera entradas por teclado y devuelve sus tokens.
 -}
-main = do
-  s <- getContents
-  return (alexScanTokens s)
+
 }
