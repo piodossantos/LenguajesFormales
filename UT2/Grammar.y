@@ -1,6 +1,7 @@
 {
 module Grammar where
 import Tokens
+import Data.Map
 }
 
 %name parseCalc
@@ -36,14 +37,11 @@ Json : let var '=' Exp in Exp { Let $2 $4 $6 }
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
-data Exp = Let String Exp Exp
-         | Plus Exp Exp
-         | Minus Exp Exp
-         | Times Exp Exp
-         | Div Exp Exp
-         | Negate Exp
-         | Brack Exp
-         | Int Int
-         | Var String
-         deriving Show
-}
+
+data JSON= GString String|
+    GNumber Double|
+    GBoolean Bool|
+    GList [JSON] |
+    GNull|
+    GObject (Map String JSON)
+    deriving (Show,Eq)
