@@ -1,7 +1,7 @@
 {
 module Grammar where
 import Tokens
-import Data.Map
+import qualified Data.Map 
 }
 
 %name parseCalc
@@ -9,25 +9,28 @@ import Data.Map
 %error { parseError }
 
 %token
-    str { Chain }
-    number  {Literal }
-    boolean { Truthy }
-    ',' { Comma }
+    str { Chain $$ }
+    number  {Literal $$ }
+    true { TrueB }
+    false {FalseB}
+    ',' { Comma}
     ':' { Colon }
     '{' { LCurly }
     '}' { RCurly }
-    '[' { LBraces }
+    '[' { LBraces}
     ']' { RBraces }
-    null {NullB}
+    null {NullB }
 
 
+%%
 JsonG : null { GNull }
     | str            { GString $1 }
-    | number           { GNumber $1::Double }
-    | boolean            { GBoolean $1::Bool }
+    | number           { GNumber (read $1::Double) }
+    | true            { GBoolean True }
+    | false {GBoolean False}
     | '[' Elem ']' {GList $2}
     | '['']' {GList []}
-    | '{''}' {GObject empty}
+    | '{''}' {GObject Data.Map.empty}
     | '{' Obj '}' {GObject $2}
 
 
@@ -35,10 +38,10 @@ Elem : JsonG  { [$1] }
     | Elem ',' JsonG {$1 ++ [$3]}
 
  
-Obj : str ':' JsonG {(Map $1 $3)}
-    | Obj ',' str ':' JsonG { insert $3 $5 $1 }
+Obj : str ':' JsonG {Data.Map.fromList [($1,$3)]}
+    | Obj ',' str ':' JsonG { Data.Map.insert $3 $5 $1 }
 
-
+{
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
@@ -48,6 +51,6 @@ data JSON= GString String|
     GBoolean Bool|
     GList [JSON] |
     GNull|
-    GObject (Map String JSON)
+    GObject (Data.Map.Map String JSON)
     deriving (Show,Eq)
 }

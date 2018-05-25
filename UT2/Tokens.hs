@@ -2,7 +2,7 @@
 {-# LANGUAGE CPP #-}
 {-# LINE 1 "Tokens.x" #-}
 
-module Main (main) where
+module Tokens where
 
 #if __GLASGOW_HASKELL__ >= 603
 #include "ghcconfig.h"
@@ -2690,18 +2690,17 @@ alex_actions = array (0 :: Int, 13)
   Tipo de Dato Algebraico para token.
 -}
 data Token =
-  Special String|
   Literal String|
   Chain String |
-  LBraces String|
-  RBraces String|
-  Comma String|
-  RCurly String|
-  LCurly String|
-  TrueB String|
-  FalseB String|
-  NullB String|
-  Colon String
+  LBraces |
+  RBraces |
+  Comma |
+  RCurly |
+  LCurly |
+  TrueB|
+  FalseB|
+  NullB |
+  Colon 
   deriving (Eq,Show)
 
 -- Entradas para testear
@@ -2733,15 +2732,15 @@ main = do
   s <- getContents
   return (alexScanTokens s)
 
-alex_action_1 = \s -> (LBraces s)
-alex_action_2 = \s -> (RBraces s)
-alex_action_3 = \s -> (Comma s)
-alex_action_4 = \s -> (Colon s)
-alex_action_5 = \s -> (LCurly s)
-alex_action_6 = \s -> (RCurly s)
-alex_action_7 = \s -> (TrueB s)
-alex_action_8 = \s -> (FalseB s)
-alex_action_9 = \s -> (NullB s)
+alex_action_1 = \s -> (LBraces)
+alex_action_2 = \s -> (RBraces)
+alex_action_3 = \s -> (Comma)
+alex_action_4 = \s -> (Colon)
+alex_action_5 = \s -> (LCurly)
+alex_action_6 = \s -> (RCurly)
+alex_action_7 = \s -> (TrueB )
+alex_action_8 = \s -> (FalseB)
+alex_action_9 = \s -> (NullB )
 alex_action_10 = \s -> (Literal s)
 alex_action_11 = \s -> (Chain s)
 {-# LINE 1 "templates/GenericTemplate.hs" #-}

@@ -1,5 +1,5 @@
 {
-module Main (main) where
+module Tokens where
 }
 
 %wrapper "basic"
@@ -9,14 +9,15 @@ $alpha = [a-zA-Z]		-- alphabetic characters
 
 tokens :-
   $white+				;
-  (\[) {\s -> (LBraces s)}
-  (\]) {\s -> (RBraces s)}
-  (\,) {\s -> (Comma s)}
-  (\:) {\s -> (Colon s)}
-  (\{) {\s -> (LCurly s)}
-  (\}) {\s -> (RCurly s)}
-  (true | false) {\s -> (Truthy s)}
-  (null) {\s -> (NullB s)}
+  (\[) {\s -> (LBraces)}
+  (\]) {\s -> (RBraces)}
+  (\,) {\s -> (Comma)}
+  (\:) {\s -> (Colon)}
+  (\{) {\s -> (LCurly)}
+  (\}) {\s -> (RCurly)}
+  (true) {\s -> (TrueB )}
+  (false) {\s -> (FalseB)}
+  (null) {\s -> (NullB )}
   (\-)?([0-9]+(\.[0-9]+)?([eE](\+|\-)?[0-9]+)?) {\s -> (Literal s)}
  (\"([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\"){\s -> (Chain s)}
 
@@ -26,17 +27,17 @@ tokens :-
   Tipo de Dato Algebraico para token.
 -}
 data Token =
-  Special String|
   Literal String|
   Chain String |
-  LBraces String|
-  RBraces String|
-  Comma String|
-  RCurly String|
-  LCurly String|
-  Truthy String|
-  NullB String|
-  Colon String
+  LBraces |
+  RBraces |
+  Comma |
+  RCurly |
+  LCurly |
+  TrueB|
+  FalseB|
+  NullB |
+  Colon 
   deriving (Eq,Show)
 
 -- Entradas para testear
