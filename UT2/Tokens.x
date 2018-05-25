@@ -15,8 +15,7 @@ tokens :-
   (\:) {\s -> (Colon s)}
   (\{) {\s -> (LCurly s)}
   (\}) {\s -> (RCurly s)}
-  (true) {\s -> (TrueB s)}
-  (false) {\s -> (FalseB s)}
+  (true | false) {\s -> (Truthy s)}
   (null) {\s -> (NullB s)}
   (\-)?([0-9]+(\.[0-9]+)?([eE](\+|\-)?[0-9]+)?) {\s -> (Literal s)}
  (\"([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\"){\s -> (Chain s)}
@@ -35,8 +34,7 @@ data Token =
   Comma String|
   RCurly String|
   LCurly String|
-  TrueB String|
-  FalseB String|
+  Truthy String|
   NullB String|
   Colon String
   deriving (Eq,Show)
