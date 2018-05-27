@@ -55,7 +55,7 @@ data JSON= GString String|
     deriving (Eq,Ord)
 
 instance Show JSON where
-    show (GString s)=s
+    show (GString s)=show s
     show (GNumber n)=show n
     show (GBoolean b) = if b then "true" else "false"
     show (GNull) = "null"
