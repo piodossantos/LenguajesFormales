@@ -64,8 +64,6 @@ instance Show JSON where
         |Data.Map.size x ==0="{}"
         |otherwise = "{"++ (tail $ concat $ Prelude.map (\y-> "," ++ show ( fst  y) ++ ":" ++ show  (snd y) ) (Data.Map.toList x)) ++"}"
 
-a= GObject (Data.Map.fromList [("esto_anda",GNull),("esto_tmbn",GBoolean True)])
-
 main = getContents >>= print . parseCalc . alexScanTokens
 
 }
