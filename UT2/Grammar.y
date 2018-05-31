@@ -59,7 +59,7 @@ instance Show JSON where
     show (GNumber n)=show n
     show (GBoolean b) = if b then "true" else "false"
     show (GNull) = "null"
-    show (GList x) = "[]"
+    show (GList []) = "[]"
     show (GList x) = "["++ (tail $ concat $ map (\y-> "," ++ show y) x) ++ "]"
     show (GObject x)
         |Data.Map.size x ==0="{}"
