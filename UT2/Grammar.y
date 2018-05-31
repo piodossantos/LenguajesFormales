@@ -60,6 +60,7 @@ instance Show JSON where
     show (GBoolean b) = if b then "true" else "false"
     show (GNull) = "null"
     show (GList x) = "["++ (tail $ concat $ map (\y-> "," ++ show y) x) ++ "]"
+    show (GList x) = "[]"
     show (GObject x)
         |Data.Map.size x ==0="{}"
         |otherwise = "{"++ (tail $ concat $ Prelude.map (\y-> "," ++ show ( fst  y) ++ ":" ++ show  (snd y) ) (Data.Map.toList x)) ++"}"
