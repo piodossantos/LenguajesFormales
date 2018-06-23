@@ -1,17 +1,33 @@
+import qualified Data.Map as Map
 data Symbol =NoTerm String | Term String
     deriving(Show,Eq)
 type Prod = (String , [([Symbol],Double)])
 type BabbleGrammar = (String, [Prod])
 
 
-parseGrammar::String -> BabbleGrammar
-parseGrammarFile _ = error"No implementado"
+-- parseGrammar::String -> BabbleGrammar
+-- parseGrammar _ = error"No implementado"
 
-parseGrammarFile::String->BabbleGrammar
-parseGrammarFile _ =error"No implementado"
+-- parseGrammarFile::String->BabbleGrammar
+-- parseGrammarFile _ =error"No implementado"
 
 unparseGrammar:: BabbleGrammar -> String
-unparseGrammar (a,
+unparseGrammar (a, productions) = (unparseProduction (a,head)) ++ (concat [(unparseProduction i) | i <- (Map.toList remaining) ])
+    where 
+        map = Map.fromList productions
+        head = map Map.! a
+        remaining = Map.delete a map
+
+unparseProduction:: Prod -> String
+unparseProduction ( "", [x]) = (concat (map (\s -> case s of
+    (NoTerm nt) -> nt
+    (Term t) -> "\"" ++ t ++ "\"")
+    (fst x))) ++ "%" ++ (show (snd x)) ++ ";\n"
+unparseProduction ("" ,(x:xs)) = (concat (map (\s -> case s of
+    (NoTerm nt) -> nt
+    (Term t) -> "\"" ++ t ++ "\"")
+    (fst x))) ++ "%" ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
+unparseProduction (a, l) = a ++ ":" ++ unparseProduction( "", l)
 
 generateValidStrings::BabbleGrammar-> Int -> (Int,Int,[Prod]) ->[String]
 generateValidStrings _ _ _ = error"No implementado"
