@@ -1,4 +1,5 @@
 import qualified Data.Map as Map
+import System.Random
 data Symbol =NoTerm String | Term String
     deriving(Show,Eq)
 type Prod = (String , [([Symbol],Double)])
@@ -29,11 +30,13 @@ unparseProduction ("" ,(x:xs)) = (concat (map (\s -> case s of
     (fst x))) ++ "%" ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
 unparseProduction (a, l) = a ++ ":" ++ unparseProduction( "", l)
 
-generateValidStrings::BabbleGrammar-> Int -> (Int,Int,[Prod]) ->[String]
-generateValidStrings _ _ _ = error"No implementado"
+generateValidStrings::BabbleGrammar-> Int -> (Int,Int,[Prod])  ->IO [String]
+generateValidStrings x y z = do
+    gen <- newStdGen
+    return (generateRandomStrings x y z (randomRs (0.0,1.0) gen))
 
-
-
+generateRandomStrings:: BabbleGrammar-> Int -> (Int,Int,[Prod]) -> [Double] ->[String]
+generateRandomStrings _ _ _ _=  ["holi"]
 
 normalizeGrammar::BabbleGrammar->BabbleGrammar
 normalizeGrammar  (a,[])=  (a,[])
