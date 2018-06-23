@@ -6,11 +6,14 @@ type Prod = (String , [([Symbol],Double)])
 type BabbleGrammar = (String, [Prod])
 
 
--- parseGrammar::String -> BabbleGrammar
--- parseGrammar _ = error"No implementado"
+parseGrammar::String -> BabbleGrammar
+parseGrammar grammar = ("", [])
 
--- parseGrammarFile::String->BabbleGrammar
--- parseGrammarFile _ =error"No implementado"
+parseGrammarFile::String->IO BabbleGrammar
+parseGrammarFile path = do
+    contents <- readFile(path)
+    -- parse
+    return ("",[])
 
 unparseGrammar:: BabbleGrammar -> String
 unparseGrammar (a, productions) = (unparseProduction (a,head)) ++ (concat [(unparseProduction i) | i <- (Map.toList remaining) ])
@@ -36,7 +39,7 @@ generateValidStrings x y z = do
     return (generateRandomStrings x y z (randomRs (0.0,1.0) gen))
 
 generateRandomStrings:: BabbleGrammar-> Int -> (Int,Int,[Prod]) -> [Double] ->[String]
-generateRandomStrings _ _ _ _=  ["holi"]
+generateRandomStrings _ _ _ _= ["holi"]
 
 normalizeGrammar::BabbleGrammar->BabbleGrammar
 normalizeGrammar  (a,[])=  (a,[])
