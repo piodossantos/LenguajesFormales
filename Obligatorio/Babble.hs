@@ -27,11 +27,11 @@ unparseProduction:: Prod -> String
 unparseProduction ( "", [x]) = (concat (map (\s -> case s of
     (NoTerm nt) -> nt
     (Term t) -> "\"" ++ t ++ "\"")
-    (fst x))) ++ "%" ++ (show (snd x)) ++ ";\n"
+    (fst x))) ++ " %prob " ++ (show (snd x)) ++ ";\n"
 unparseProduction ("" ,(x:xs)) = (concat (map (\s -> case s of
     (NoTerm nt) -> nt
     (Term t) -> "\"" ++ t ++ "\"")
-    (fst x))) ++ "%" ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
+    (fst x))) ++ " %prob " ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
 unparseProduction (a, l) = a ++ ":" ++ unparseProduction( "", l)
 
 generateValidStrings::BabbleGrammar-> Int -> (Int,Int,[Prod])  ->IO [String]
