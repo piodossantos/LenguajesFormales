@@ -25,6 +25,7 @@ data Token =
   ChainNTerm String |
   Colon | 
   SemiColon |
+  Prob Double |
   Pipe
   deriving (Eq,Show)
 
