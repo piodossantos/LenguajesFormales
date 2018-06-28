@@ -13,7 +13,7 @@ tokens :-
   (\;) {\s -> (SemiColon)}
   (\|) {\s -> (Pipe)}
   (\'([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\') {\s -> (ChainTerm s)}
-  (([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*) {\s -> (ChainNTerm s)}
+  (([^$white\|\;\:\'\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*) {\s -> (ChainNTerm s)}
 
 {
 
@@ -25,6 +25,7 @@ data Token =
   ChainNTerm String |
   Colon | 
   SemiColon |
+  Prob Double |
   Pipe
   deriving (Eq,Show)
 
