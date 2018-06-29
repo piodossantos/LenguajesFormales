@@ -12,7 +12,7 @@ import Data.Fixed
  T {ChainTerm $$}
  NT {ChainNTerm $$}
  ':' {Colon} 
- ';' {SemiColon }
+ ';' {SemiColon}
  prob {Prob }
  nprob {Nprob $$}
  '|' {Pipe}
@@ -20,15 +20,22 @@ import Data.Fixed
 
 %%
 
-BabbleG : NT ':' Elems ';' {Prod }
+BabbleG : NT ':' Elems ';' {($1, $3)}
+    |'_' ':' Terms ';' { ($1,$3)}
+
+Terms: T {[([Term $1],1.0)]}
+    | T '|' Terms {[([Term $1])]++$3}
+
 Elems : Elem {[$1]}
-    | Elems '|' Elem {$1++$3}
-Elem : L prob nprob (($1,$3::Double))
-    | L {($1,1)}
-L : L NT {$1 ++[NTerm $2]}
-    |L T {$1 ++[Term $2]}
-    |T {[Term $1]}
-    |NT {[NTerm $1]}
+    | Elem '|' Elems {[$1]++$3}
+
+Elem : L prob nprob {($1,$3::Double)}
+    | L {($1,1.0)}
+
+L :  NT L {[(NoTerm $1)]++$2}
+    |T L {[(Term $1)]++$2}
+    |T {[(Term $1)]}
+    |NT {[(NoTerm $1)]}
 {
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
@@ -38,10 +45,4 @@ data Symbol =NoTerm String | Term String
 type Prod = (String , [([Symbol],Double)])
 type BabbleGrammar = (String, [Prod])
 
-
-
-main = do 
-    contents <- getLine
-    putStrLn (show (parseCalc (alexScanTokens  contents)))
-    main
 }

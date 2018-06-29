@@ -9,11 +9,14 @@ $alpha = [a-zA-Z]		-- alphabetic characters
 
 tokens :-
   $white+				;
+  (\%prob ) {\s -> (Prob)}
+  ($digit+\.$digit+) {\s -> Nprob (read s)}
   (\:) {\s -> (Colon)}
+  (\_) {\s -> (UnderScore)}
   (\;) {\s -> (SemiColon)}
   (\|) {\s -> (Pipe)}
   (\'([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\') {\s -> (ChainTerm s)}
-  (([^$white\|\;\:\'\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*) {\s -> (ChainNTerm s)}
+  (([^$white\|\;\:\'\"\\\n\r])*) {\s -> (ChainNTerm s)}
 
 {
 
@@ -25,32 +28,10 @@ data Token =
   ChainNTerm String |
   Colon | 
   SemiColon |
-  Prob Double |
-  Pipe
+  Prob |
+  Nprob Double |
+  Pipe |
+  UnderScore 
   deriving (Eq,Show)
-
-{-
-  showInLine
-  Recibe una lista de Token y lo muestra en linea
--}
-
-showInLine:: [Token] -> IO()
-showInLine y = putStr $ concat $ map (\x-> show(x) ++ "\n") y
-
-
-{-
-  getTokenJSON
-  Recibe como entrada un texto.
--}
-getTokenJSON::String->IO()
-getTokenJSON x = showInLine $ alexScanTokens $ x
-
-{-
-  Espera entradas por teclado y devuelve sus tokens.
--}
-
-main = do
-    s <- getContents
-    print (alexScanTokens s)
 
 }

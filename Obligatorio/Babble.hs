@@ -1,10 +1,6 @@
 import qualified Data.Map as Map
 import System.Random
 import Data.List
-data Symbol =NoTerm String | Term String
-    deriving(Show,Eq, Ord)
-type Prod = (String , [([Symbol],Double)])
-type BabbleGrammar = (String, [Prod])
 
 
 parseGrammar::String -> BabbleGrammar
@@ -39,16 +35,6 @@ generateValidStrings x y z = do
     gen <- newStdGen
     return (generateRandomStrings x y z (randomRs (0.0,1.0) gen))
 
-generateRandomStrings:: BabbleGrammar-> Int -> (Int,Int,[Prod]) -> [Double] ->[String]
-generateRandomStrings (initial, productions) , n, (min, max, []) (r:rs) =
-    | n == 0 = initial
-    | 
-
-    where 
-        prods = (Map.fromList productions) Map.! initial
-        probs = accumulatedProbability (map \x (snd x) prods)
-        index = elemIndex (take 1 (filter(\x -> x > r) probs))
-        elem = fst(productions !! index)
 
 generateRandomStrings g@(intial, productions)  n  (min, max, newProductions)  rnn = generateRandomStrings (normalizeGrammar (updateGrammar g newProductions)) n (min, max, []) rnn 
 
@@ -81,3 +67,9 @@ test1::BabbleGrammar
 test1 = ("Exp" ,[( "Exp",[([(NoTerm "Exp"),(NoTerm "Exp")],0.9),
     ([(NoTerm "Exp"),(Term "+"),(NoTerm "Exp")],0.91)])])
 
+{-
+main = do 
+    contents <- getLine
+    putStrLn (show (Grammar.parseCalc (Grammar.alexScanTokens  contents)))
+    main
+-}
