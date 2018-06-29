@@ -2,6 +2,10 @@ import qualified Data.Map as Map
 import System.Random
 import Data.List
 
+data Symbol =NoTerm String | Term String
+    deriving(Show,Eq, Ord)
+type Prod = (String , [([Symbol],Double)])
+type BabbleGrammar = (String, [Prod])
 
 parseGrammar::String -> BabbleGrammar
 parseGrammar grammar = ("", [])
