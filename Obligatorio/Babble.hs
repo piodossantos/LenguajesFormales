@@ -1,10 +1,6 @@
 import qualified Data.Map as Map
 import System.Random
 import Data.List
-data Symbol =NoTerm String | Term String
-    deriving(Show,Eq, Ord)
-type Prod = (String , [([Symbol],Double)])
-type BabbleGrammar = (String, [Prod])
 
 
 parseGrammar::String -> BabbleGrammar
@@ -40,6 +36,7 @@ generateValidStrings grammar n (min, max, prods) = do
     gen <- newStdGen
     return (generateValidRandomStrings updatedGrammar n min max gen)
 
+<<<<<<< HEAD
 generateValidRandomStrings:: BabbleGrammar -> Int -> Int -> Int -> StdGen -> [String]
 generateValidRandomStrings _ 0 _ _ _ = []
 generateValidRandomStrings grammar n min max generator = (generateValidRandomString grammar min max (randomRs (0.0, 1.0) generator)) : (generateValidRandomStrings grammar (n-1) min max (snd (next generator))) 
@@ -78,6 +75,10 @@ isAllNoTerminal (symbols, _)
 isTerminal :: Symbol -> Bool
 isTerminal (NoTerm _) = False
 isTerminal _ = True
+=======
+
+generateRandomStrings g@(intial, productions)  n  (min, max, newProductions)  rnn = generateRandomStrings (normalizeGrammar (updateGrammar g newProductions)) n (min, max, []) rnn 
+>>>>>>> 6ef24336131829a35e7b086b89315adddfe8e939
 
 accumulatedProbability:: [Double] -> [Double]
 accumulatedProbability [] = []
@@ -117,3 +118,9 @@ test1 = ("Exp" ,[( "Exp",[
                 ]
         )
 
+{-
+main = do 
+    contents <- getLine
+    putStrLn (show (Grammar.parseCalc (Grammar.alexScanTokens  contents)))
+    main
+-}
