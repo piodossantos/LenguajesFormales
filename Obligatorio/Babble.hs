@@ -1,11 +1,11 @@
 import qualified Data.Map as Map
 import System.Random
 import Data.List
+
 data Symbol =NoTerm String | Term String
     deriving(Show,Eq, Ord)
 type Prod = (String , [([Symbol],Double)])
 type BabbleGrammar = (String, [Prod])
-
 
 parseGrammar::String -> BabbleGrammar
 parseGrammar grammar = ("", [])
@@ -27,30 +27,57 @@ unparseProduction:: Prod -> String
 unparseProduction ( "", [x]) = (concat (map (\s -> case s of
     (NoTerm nt) -> nt
     (Term t) -> "\"" ++ t ++ "\"")
-    (fst x))) ++ " %prob " ++ (show (snd x)) ++ ";\n"
+    (fst x))) ++ "%" ++ (show (snd x)) ++ ";\n"
 unparseProduction ("" ,(x:xs)) = (concat (map (\s -> case s of
     (NoTerm nt) -> nt
     (Term t) -> "\"" ++ t ++ "\"")
-    (fst x))) ++ " %prob " ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
+    (fst x))) ++ "%" ++ (show (snd x)) ++ "|" ++ unparseProduction ( "" , xs)
 unparseProduction (a, l) = a ++ ":" ++ unparseProduction( "", l)
 
 generateValidStrings::BabbleGrammar-> Int -> (Int,Int,[Prod])  ->IO [String]
-generateValidStrings x y z = do
+generateValidStrings grammar n (min, max, prods) = do
+    let updatedGrammar = normalizeGrammar (updateGrammar grammar prods)
     gen <- newStdGen
-    return (generateRandomStrings x y z (randomRs (0.0,1.0) gen))
+    return (generateValidRandomStrings updatedGrammar n min max gen)
 
-generateRandomStrings:: BabbleGrammar-> Int -> (Int,Int,[Prod]) -> [Double] ->[String]
-generateRandomStrings (initial, productions) , n, (min, max, []) (r:rs) =
-    | n == 0 = initial
-    | 
+generateValidRandomStrings:: BabbleGrammar -> Int -> Int -> Int -> StdGen -> [String]
+generateValidRandomStrings _ 0 _ _ _ = []
+generateValidRandomStrings grammar n min max generator = (generateValidRandomString grammar min max (randomRs (0.0, 1.0) generator)) : (generateValidRandomStrings grammar (n-1) min max (snd (next generator))) 
 
+
+generateValidRandomString (initial, productions) min max (r:rs) =
+    concat(map (\x -> case x of 
+        (n, (Term y)) -> y
+        (n, (NoTerm y)) -> (generateValidRandomString  (y ,productions) (min - 1) (max -1) (drop n rs))) (zip [0..] (fst ( usedProds !! index))))
     where 
         prods = (Map.fromList productions) Map.! initial
-        probs = accumulatedProbability (map \x (snd x) prods)
-        index = elemIndex (take 1 (filter(\x -> x > r) probs))
-        elem = fst(productions !! index)
+        desirableProds = normalizeProd (getProductionsByHeight min max prods)
+        usedProds = if (length desirableProds) == 0 then prods else desirableProds
+        probs = accumulatedProbability (map (\x-> (snd x)) usedProds)
+        el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
+        index = case el of (Just x) -> x
 
-generateRandomStrings g@(intial, productions)  n  (min, max, newProductions)  rnn = generateRandomStrings (normalizeGrammar (updateGrammar g newProductions)) n (min, max, []) rnn 
+
+getProductionsByHeight :: Int ->  Int -> [([Symbol],Double)] -> [([Symbol],Double)]
+getProductionsByHeight min max prods
+    |min >= 1 = filter(\x -> not (isAllTerminal x)) prods
+    |min < 1 && max >= 1 = prods
+    |max < 1 = if (length terminals) == 0 then filter (\x -> not (isAllNoTerminal x)) prods else terminals
+    where terminals = filter (\x -> (isAllTerminal x)) prods
+
+
+isAllTerminal :: ([Symbol],Double) -> Bool
+isAllTerminal (symbols, _)
+    | length(filter (\x -> isTerminal(x)) symbols) == (length symbols) = True
+    | otherwise = False
+isAllNoTerminal :: ([Symbol], Double) -> Bool
+isAllNoTerminal (symbols, _)
+    | length(filter(\x -> not (isTerminal(x))), symbols) == (length symbols) = True
+    | otherwise = False
+
+isTerminal :: Symbol -> Bool
+isTerminal (NoTerm _) = False
+isTerminal _ = True
 
 accumulatedProbability:: [Double] -> [Double]
 accumulatedProbability [] = []
@@ -69,6 +96,7 @@ updateGrammar grammar@(initial, productions) ((nt, symbols):xs)
             sym = Map.fromList symbols
 
 
+
 normalizeGrammar::BabbleGrammar->BabbleGrammar
 normalizeGrammar  (a,[])=  (a,[])
 normalizeGrammar (a,x)= ( a,(map (\(y,z)-> (y,normalizeProd z)) x))
@@ -78,6 +106,20 @@ normalizeProd ts = [(a,(b/total)) | (a,b)<- ts]
     where total = foldl (\z y -> z +( snd y)) 0 ts
 
 test1::BabbleGrammar
-test1 = ("Exp" ,[( "Exp",[([(NoTerm "Exp"),(NoTerm "Exp")],0.9),
-    ([(NoTerm "Exp"),(Term "+"),(NoTerm "Exp")],0.91)])])
+test1 = ("Exp" ,[( "Exp",[
+                          ([(NoTerm "Exp"),(Term "+"),(NoTerm "Exp")],1),
+                          ([(NoTerm "Exp"),(Term "-"),(NoTerm "Exp")],1),
+                          ([(Term "3")], 1),
+                          ([(Term "7")], 1),
+                          ([(Term "5")], 1)]
+                           
+                 )
+                ]
+        )
 
+{-
+main = do 
+    contents <- getLine
+    putStrLn (show (Grammar.parseCalc (Grammar.alexScanTokens  contents)))
+    main
+-}
