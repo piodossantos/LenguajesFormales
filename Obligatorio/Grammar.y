@@ -58,17 +58,5 @@ groupProductions prods = [ foldl (\(a1,a2) (_,b2) -> (x,b2++a2)) (x,[]) (filter 
     where
         heads = Data.List.nub (map (fst) prods)
 
-main = do 
-    contents <- getLine
-    putStrLn (show (parseCalc (alexScanTokens  contents)))
-    main
 
-grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
---Ejemplo 2
-grammar2="Exp : Exp '+' Exp %prob 0.4 ; Exp : Exp '*' Exp %prob 0.4 ; Exp : '(' Exp ')' %prob 0.1 | NUM %prob 0.1 ;"
---Otros ejemplos
-grammar3="A : BC %prob 0.1| ABC %prob 0.2; A : CB ; C: '3' | B %prob 0.3; B : '1' '|' '2' '|' '3' %prob 0.3 | '1' '|' B '2' B '|' '3' %prob 0.3 ; _: ' ' | '7'; "
-
-grammar4="S: 'a'; "
-grammar5="Binas : '1' Binas; Binas : '0' Binas; Binas : '0' | '1';"
 }
