@@ -62,12 +62,14 @@ genRandomString [] [] remaining initial  productions rs n min max amin amax igno
     | length((filter (\y -> length(filter(\x -> isTerminal(x)), y) == (length y)) remaining)) == length remaining = [remaining] ++ genRandomString [] [] [] initial productions rs (n-1) min max min max ignorableFactor
     | otherwise = genRandomString [] remaining [] initial productions rs n min max (amin - 1) (amax - 1) ignorableFactor
 genRandomString [] (lvl:lvls) remaining initial productions rs n min max amin amax ignorableFactor = genRandomString lvl lvls remaining initial productions rs n min max amin amax ignorableFactor
-genRandomString ((Term s):ss) lvls remaining initial productions (r:rs) n min max amin amax ignorableFactor = genRandomString ss lvls (remaining ++ [[(Term s)]] ++ (if (length prods > 0 && r < ignorableFactor) then ([fst (prods !! index)]) else [])) initial  productions rs n min max amin amax ignorableFactor
+genRandomString ((Term s):ss) lvls remaining initial productions (r: r1 : r2 : r3 :rs) n min max amin amax ignorableFactor = genRandomString ss lvls (remaining ++ (if (length prods > 0 && r2 < ignorableFactor) then ([fst (prods !! index)]) else []) ++[[(Term s)]] ++ (if (length prods > 0 && r3 < ignorableFactor) then ([fst (prods !! index1)]) else [])) initial  productions rs n min max amin amax ignorableFactor
     where 
         prods = if (Map.member "_" (Map.fromList productions)) then ((Map.fromList productions) Map.! "_") else []
         probs = accumulatedProbability (map (\x-> (snd x)) prods)
         el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
+        el1 = elemIndex ((filter(\x -> x > r1) probs) !! 0) probs
         index = case el of (Just x) -> x
+        index1 = case el1 of (Just x) -> x
 genRandomString ((NoTerm nt):ss) lvls remaining initial productions (r:rs) n min max amin amax ignorableFactor = genRandomString ss lvls (remaining ++ [(fst (usedProds !! index))]) initial productions rs n min max amin amax ignorableFactor
     where 
         prods = (Map.fromList productions) Map.! nt
