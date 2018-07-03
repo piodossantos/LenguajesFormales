@@ -15,8 +15,8 @@ tokens :-
   (\_) {\s -> (UnderScore)}
   (\;) {\s -> (SemiColon)}
   (\|) {\s -> (Pipe)}
-  (\'([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))*\') {\s -> (ChainTerm s)}
-  (([^$white\|\;\:\'\"\\\n\r])*) {\s -> (ChainNTerm s)}
+  (\'([^\"\\\n\r]|\\(\"|\\|\/|b|f|n|r|t))+\') {\s -> (ChainTerm s)}
+  ([a-zA-Z]+) {\s -> (ChainNTerm s)}
 
 {
 
