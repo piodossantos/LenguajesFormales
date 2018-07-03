@@ -48,9 +48,10 @@ parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
 data Symbol =NoTerm String | Term String
-    deriving(Show,Eq)
+    deriving(Show,Eq, Ord)
 type Prod = (String , [([Symbol],Double)])
 type BabbleGrammar = (String, [Prod])
+data DerivationTree = Leaf Symbol | Node Symbol [DerivationTree] | Empty
 
 groupProductions:: [Prod] -> [Prod]
 groupProductions prods = [ foldl (\(a1,a2) (_,b2) -> (x,b2++a2)) (x,[]) (filter (\a -> (fst a) == x) prods) | x<-heads ]
