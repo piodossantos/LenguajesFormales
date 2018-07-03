@@ -10,8 +10,7 @@ parseGrammar grammar = normalizeGrammar (Grammar.parseCalc (alexScanTokens  gram
 parseGrammarFile::String->IO BabbleGrammar
 parseGrammarFile path = do
     contents <- readFile(path)
-    -- parse
-    return ("",[])
+    return (normalizeGrammar (Grammar.parseCalc (alexScanTokens  contents)))
 
 unparseGrammar:: BabbleGrammar -> String
 unparseGrammar (a, productions) = (unparseProduction (a,head)) ++ (concat [(unparseProduction i) | i <- (Map.toList remaining) ])
@@ -141,7 +140,7 @@ test1 = ("Exp" ,[( "Exp",[
                 ]
         )
 
-grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
+grammar1="Exp : Exp '+' Exp %prob 0.11| Exp '*' Exp %prob 0.11| '(' Exp ')' %prob 0.11 | NUM %prob 0.33 ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
 --Ejemplo 2
 grammar2="Exp : Exp '+' Exp %prob 0.4 ; Exp : Exp '*' Exp %prob 0.4 ; Exp : '(' Exp ')' %prob 0.1 | NUM %prob 0.1 ;"
 --Otros ejemplos
