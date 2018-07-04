@@ -151,7 +151,10 @@ grammar8="J : P R M; P : 'a' 'b'; P : 'a' P 'b'; R : 'c' 'd'; R : 'c' R 'd'; M :
 grammar9="Ini : 'v''a''m''o''s''!'' ' Ini; Ini : 'U''r''u''g''u''a''y''!'' ';"
 grammar10="Sal : A B; A : '0' %prob 0.33; B : C '+' D %prob 0.2 | '3' %prob 0.07; C : '1'; D : '4'; _ : ' ' | '\n';"
 
+grammars = [grammar1,grammar2,grammar3,grammar4,grammar5,grammar6,grammar7,grammar8,grammar9,grammar10]
+
 testGrammar::[BabbleGrammar]
 testGrammar = map (Grammar.parseCalc.Tokens.alexScanTokens) grammars
-    where
-        grammars = [grammar1,grammar2,grammar3,grammar4,grammar5,grammar6,grammar7,grammar8,grammar9,grammar10]
+
+testParseUnParse::[BabbleGrammar]
+testParseUnParse = map (Grammar.parseCalc.Tokens.alexScanTokens.unparseGrammar) testGrammar
