@@ -3,7 +3,7 @@ import System.Random
 import Data.List
 import Grammar
 import Tokens
-
+import Debug.Trace
 parseGrammar::String -> BabbleGrammar
 parseGrammar grammar = normalizeGrammar (Grammar.parseCalc (alexScanTokens  grammar))
 
@@ -41,7 +41,39 @@ generateValidStrings grammar n (min, max, prods) ignorableFactor= do
     let strings = genRandomString [] [] [] (fst updatedGrammar) (snd updatedGrammar) (randomRs (0.0, 1.0) gen) n min max min max ignorableFactor
     return (map (\x -> concat(map showSymbol (concat x))) strings)
 
+generateValidTrees::BabbleGrammar -> Int -> (Int, Int, [Prod]) -> IO [[[[Symbol]]]]
+generateValidTrees grammar n (min, max, prods) = do
+    let updatedGrammar = normalizeGrammar (updateGrammar grammar prods)
+    gen <- newStdGen
+    return (genRandomTree n min max (fst updatedGrammar) (snd updatedGrammar) 0 [] [] [] [] (randomRs (0.0, 1.0) gen))
 
+
+
+
+
+
+
+genRandomTree:: Int -> Int -> Int -> String -> [(String , [([Symbol],Double)])] -> Int -> [[[Symbol]]] -> [[Symbol]] -> [Symbol] -> [[[[Symbol]]]] -> [Double] -> [[[[Symbol]]]]
+genRandomTree 0 _ _ _ _ _ _ _ _  trees _ = trees
+genRandomTree n min max intl prods 0 [] [] [] trees rs = genRandomTree n min max intl prods 0 [[[(NoTerm intl)]]] [] [] trees rs
+genRandomTree n min max intl prods h lvls [] [] trees rs
+    |(length lvls) == h = genRandomTree (n - 1) min max intl prods 0 [] [] [] (trees ++ [lvls]) rs
+    |otherwise = genRandomTree n min max intl prods (h+1) lvls (lvls !! h) [] trees rs
+genRandomTree n min max intl prods h lvls (rm:rms) [] trees rs = genRandomTree n min max intl prods h lvls rms rm trees rs
+genRandomTree n min max intl prods h lvls rms ((Term s):ss) trees rs = genRandomTree n min max intl prods h lvls rms ss trees rs
+genRandomTree n min max intl prods h lvls rms ((NoTerm nt):ss) trees (r:rs) =
+    genRandomTree n min max intl prods h newlvs rms ss trees rs
+    where 
+        productions = trace (show ((Map.fromList prods) Map.! nt)) ((Map.fromList prods) Map.! nt)
+        desirableProds = trace (show (normalizeProd (getProductionsByHeight (min-h) (max-h) productions))) (normalizeProd (getProductionsByHeight (min-h) (max-h) productions))
+        usedProds = if (length desirableProds) == 0 then productions else desirableProds
+        probs = accumulatedProbability (map (\x-> (snd x)) usedProds)
+        el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
+        index = case el of (Just x) -> x
+        elem = fst(usedProds !! index)
+        brothers = if length (lvls) == h then [] else lvls !! h
+        children = brothers ++ [elem]
+        newlvs = if length (lvls) == h then lvls ++ [children] else (take h lvls) ++ [children] ++ (drop (h+1) lvls)
 
 genRandomString :: [Symbol]  -> [[Symbol]] -> [[Symbol]]  -> String -> [(String , [([Symbol],Double)])] -> [Double] -> Int -> Int -> Int -> Int -> Int -> Double -> [[[Symbol]]]
 genRandomString _ _ _ _ _ _ 0 _ _ _ _ _ = []
@@ -78,7 +110,7 @@ getProductionsByHeight :: Int ->  Int -> [([Symbol],Double)] -> [([Symbol],Doubl
 getProductionsByHeight min max prods
     |min >= 1 = filter(\x -> not (isAllTerminal x)) prods
     |min < 1 && max >= 1 = prods
-    |max < 1 = if (length terminals) == 0 then filter (\x -> not (isAllNoTerminal x)) prods else terminals
+    |max < 1 = if (length terminals) == 0 then filter (\x -> (not (isAllNoTerminal x)) || (length x) <= 1) prods else terminals
     where terminals = filter (\x -> (isAllTerminal x)) prods
 
 
@@ -140,10 +172,10 @@ test1 = ("Exp" ,[( "Exp",[
                 ]
         )
 
-grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
+grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM %prob 3; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
 grammar2="Exp : Exp '+' Exp %prob 0.4 ; Exp : Exp '*' Exp %prob 0.4 ; Exp : '(' Exp ')' %prob 0.1 | NUM %prob 0.1 ;"
 grammar3="A : BC %prob 0.1| ABC %prob 0.2; A : CB ; C: '3' | B %prob 0.3; B : '1' '|' '2' '|' '3' %prob 0.3 | '1' '|' B '2' B '|' '3' %prob 0.3 ; _: ' ' | '7'; "
-grammar4="S: 'a';"
+grammar4="S: 'a'P; P:'b';"
 grammar5="Binas : '1' Binas; Binas : '0' Binas; Binas : '0' | '1';"
 grammar6="COM : 'a'COM'b' %prob 0.75; COM : 'a''b' %prob 0.25; _ : ' ' | '\t' | '\n';"
 grammar7="Exp : Exp '*' Exp %prob 0.5; Exp : Exp '+' Exp | Num; Num : '0' | '1';"
