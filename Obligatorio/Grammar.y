@@ -47,7 +47,7 @@ L :  NT L {[(NoTerm $1)]++$2}
     |NT {[(NoTerm $1)]}
 {
 parseError :: [Token] -> a
-parseError _ = error "Parse error"
+parseError tks = error (show tks)
 
 data Symbol =NoTerm String | Term String
     deriving(Show,Eq, Ord)
