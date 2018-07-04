@@ -140,11 +140,18 @@ test1 = ("Exp" ,[( "Exp",[
                 ]
         )
 
-grammar1="Exp : Exp '+' Exp %prob 0.11| Exp '*' Exp %prob 0.11| '(' Exp ')' %prob 0.11 | NUM %prob 0.33 ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
---Ejemplo 2
+grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
 grammar2="Exp : Exp '+' Exp %prob 0.4 ; Exp : Exp '*' Exp %prob 0.4 ; Exp : '(' Exp ')' %prob 0.1 | NUM %prob 0.1 ;"
---Otros ejemplos
 grammar3="A : BC %prob 0.1| ABC %prob 0.2; A : CB ; C: '3' | B %prob 0.3; B : '1' '|' '2' '|' '3' %prob 0.3 | '1' '|' B '2' B '|' '3' %prob 0.3 ; _: ' ' | '7'; "
-
-grammar4="S: 'a'; "
+grammar4="S: 'a';"
 grammar5="Binas : '1' Binas; Binas : '0' Binas; Binas : '0' | '1';"
+grammar6="COM : 'a'COM'b' %prob 0.75; COM : 'a''b' %prob 0.25; _ : ' ' | '\t' | '\n';"
+grammar7="Exp : Exp '*' Exp %prob 0.5; Exp : Exp '+' Exp | Num; Num : '0' | '1';"
+grammar8="J : P R M; P : 'a' 'b'; P : 'a' P 'b'; R : 'c' 'd'; R : 'c' R 'd'; M : 'e' 'f'; M : 'e' M 'f'; _ : ' ';"
+grammar9="Ini : 'v''a''m''o''s''!'' ' Ini; Ini : 'U''r''u''g''u''a''y''!'' ';"
+grammar10="Sal : A B; A : '0' %prob 0.33; B : C '+' D %prob 0.2 | '3' %prob 0.07; C : '1'; D : '4'; _ : ' ' | '\n';"
+
+testGrammar::[BabbleGrammar]
+testGrammar = map (Grammar.parseCalc.Tokens.alexScanTokens) grammars
+    where
+        grammars = [grammar1,grammar2,grammar3,grammar4,grammar5,grammar6,grammar7,grammar8,grammar9,grammar10]
