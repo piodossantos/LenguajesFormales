@@ -10,7 +10,7 @@ $alpha = [a-zA-Z]		-- alphabetic characters
 tokens :-
   $white+				;
   (\%prob ) {\s -> (Prob)}
-  ($digit+\.$digit+) {\s -> Nprob (read s)}
+  ([0-9]+(\.[0-9]+)?(e(\+|\-)?[0-9]+)?) {\s -> Nprob (read s)}
   (\:) {\s -> (Colon)}
   (\_) {\s -> (UnderScore)}
   (\;) {\s -> (SemiColon)}
