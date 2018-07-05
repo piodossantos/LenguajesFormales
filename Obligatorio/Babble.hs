@@ -179,8 +179,8 @@ test1 = ("Exp" ,[( "Exp",[
         )
 
 grammar1="Exp : Exp '+' Exp | Exp '*' Exp | '(' Exp ')' | NUM %prob 3; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;"
-grammar2="Exp : Exp '+' Exp %prob 0.4 ; Exp : Exp '*' Exp %prob 0.4 ; Exp : '(' Exp ')' %prob 0.1 | NUM %prob 0.1 ;"
-grammar3="A : BC %prob 0.1| ABC %prob 0.2; A : CB ; C: '3' | B %prob 0.3; B : '1' '|' '2' '|' '3' %prob 0.3 | '1' '|' B '2' B '|' '3' %prob 0.3 ; _: ' ' | '7'; "
+grammar2="Raiz : 'a'Medio'b'; Medio : '1'Medio | '1'; Raiz : 'c' %prob 0.5;"
+grammar3="Palin : 'I' Palin 'F' | 'I''F' %prob 0.1;"
 grammar4="S: 'a'P; P:'b';"
 grammar5="Binas : '1' Binas; Binas : '0' Binas; Binas : '0' | '1';"
 grammar6="COM : 'a'COM'b' %prob 0.75; COM : 'a''b' %prob 0.25; _ : ' ' | '\t' | '\n';"
