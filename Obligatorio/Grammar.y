@@ -31,6 +31,8 @@ Prod: NT ':' Elems ';' { ($1,$3) }
     | '_' ':' Terms ';' { ("_",$3) }
 
 Terms: T {[([Term $1],1.0)]}
+    | T prob nprob {[([Term $1],$3::Double)]}
+    | T prob nprob '|' Terms {[([Term $1],$3::Double)]++$5}
     | T '|' Terms {[([Term $1],1.0)]++$3}
 
 Elems : Elem {[$1]}
@@ -45,7 +47,7 @@ L :  NT L {[(NoTerm $1)]++$2}
     |NT {[(NoTerm $1)]}
 {
 parseError :: [Token] -> a
-parseError _ = error "Parse error"
+parseError tks = error (show tks)
 
 data Symbol =NoTerm String | Term String
     deriving(Show,Eq, Ord)
