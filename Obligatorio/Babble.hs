@@ -52,10 +52,12 @@ dirtString (s:ss) factor (i, productions) (r:r1:r2:r3:rs) = s1 ++ [s] ++ s2 ++ (
         probs = accumulatedProbability (map (\x-> (snd x)) prods)
         el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
         el1 = elemIndex ((filter(\x -> x > r1) probs) !! 0) probs
-        index = case el of (Just x) -> x
+        index = case el of (Just x) -> x 
+                           (Nothing) -> 0
         index1 = case el1 of (Just x) -> x
-        dirt1 = fst(prods !! index)
-        dirt2 = fst(prods !! index1)
+                             (Nothing) -> 0
+        dirt1 = if prods /= [] then fst(prods !! index) else []
+        dirt2 = if prods /= [] then fst(prods !! index1) else []
         s1 = if r2 <= factor then concat(map (\x -> showSymbol x) dirt1) else ""
         s2 = if r3 <= factor then concat(map (\x -> showSymbol x) dirt2) else ""
 
