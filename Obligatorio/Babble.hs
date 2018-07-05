@@ -80,10 +80,6 @@ constructTree m y offset (NoTerm nt) = (Node (NoTerm nt) [(constructTree m (y+1)
         values = m !! (y+1) !! newOffset
 
 
-
-
-
-
 genRandomTree:: Int -> Int -> Int -> String -> [(String , [([Symbol],Double)])] -> Int -> [[[Symbol]]] -> [[Symbol]] -> [Symbol] -> [[[[Symbol]]]] -> [Double] -> [[[[Symbol]]]]
 genRandomTree 0 _ _ _ _ _ _ _ _  trees _ = trees
 genRandomTree n min max intl prods 0 [] [] [] trees rs = genRandomTree n min max intl prods 0 [[[(NoTerm intl)]]] [] [] trees rs
@@ -111,36 +107,6 @@ genRandomTree n min max intl prods h lvls rms ((NoTerm nt):ss) trees (r:rs) =
         children = brothers ++ [elem]
         newlvs = if length (lvls) == h then lvls ++ [children] else (take h lvls) ++ [children] ++ (drop (h+1) lvls)
 
-genRandomString :: [Symbol]  -> [[Symbol]] -> [[Symbol]]  -> String -> [(String , [([Symbol],Double)])] -> [Double] -> Int -> Int -> Int -> Int -> Int -> Double -> [[[Symbol]]]
-genRandomString _ _ _ _ _ _ 0 _ _ _ _ _ = []
-genRandomString [] [] [] initial productions (r:rs) n min max amin amax ignorableFactor = genRandomString [] [] [(fst (usedProds !! index))] initial productions rs n min max amin amax ignorableFactor
-    where 
-        prods = (Map.fromList productions) Map.! initial
-        desirableProds = normalizeProd (getProductionsByHeight amin amax prods)
-        usedProds = if (length desirableProds) == 0 then prods else desirableProds
-        probs = accumulatedProbability (map (\x-> (snd x)) usedProds)
-        el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
-        index = case el of (Just x) -> x
-genRandomString [] [] remaining initial  productions rs n min max amin amax ignorableFactor
-    | length((filter (\y -> length(filter(\x -> isTerminal(x)), y) == (length y)) remaining)) == length remaining = [remaining] ++ genRandomString [] [] [] initial productions rs (n-1) min max min max ignorableFactor
-    | otherwise = genRandomString [] remaining [] initial productions rs n min max (amin - 1) (amax - 1) ignorableFactor
-genRandomString [] (lvl:lvls) remaining initial productions rs n min max amin amax ignorableFactor = genRandomString lvl lvls remaining initial productions rs n min max amin amax ignorableFactor
-genRandomString ((Term s):ss) lvls remaining initial productions (r: r1 : r2 : r3 :rs) n min max amin amax ignorableFactor = genRandomString ss lvls (remaining ++ (if (length prods > 0 && r2 < ignorableFactor) then ([fst (prods !! index)]) else []) ++[[(Term s)]] ++ (if (length prods > 0 && r3 < ignorableFactor) then ([fst (prods !! index1)]) else [])) initial  productions rs n min max amin amax ignorableFactor
-    where 
-        prods = if (Map.member "_" (Map.fromList productions)) then ((Map.fromList productions) Map.! "_") else []
-        probs = accumulatedProbability (map (\x-> (snd x)) prods)
-        el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
-        el1 = elemIndex ((filter(\x -> x > r1) probs) !! 0) probs
-        index = case el of (Just x) -> x
-        index1 = case el1 of (Just x) -> x
-genRandomString ((NoTerm nt):ss) lvls remaining initial productions (r:rs) n min max amin amax ignorableFactor = genRandomString ss lvls (remaining ++ [(fst (usedProds !! index))]) initial productions rs n min max amin amax ignorableFactor
-    where 
-        prods = (Map.fromList productions) Map.! nt
-        desirableProds = normalizeProd (getProductionsByHeight amin amax prods)
-        usedProds = if (length desirableProds) == 0 then prods else desirableProds
-        probs = accumulatedProbability (map (\x-> (snd x)) usedProds)
-        el = elemIndex ((filter(\x -> x > r) probs) !! 0) probs
-        index = case el of (Just x) -> x
 
 getProductionsByHeight :: Int ->  Int -> [([Symbol],Double)] -> [([Symbol],Double)]
 getProductionsByHeight min max prods
