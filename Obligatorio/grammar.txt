@@ -1,1 +1,10 @@
-Exp : Exp '+' Exp %prob 0.11| Exp '*' Exp %prob 0.11| '(' Exp ')' %prob 0.11 | NUM %prob 0.33 ; NUM : '0' | '1' | '2' | '3' | '4' | '100' | '1000' ; _ : ' ' | '\n' | '\t' ;
+Babble: NT ':' Elems ';' | NT ':' Elems ';' ListProd;
+ListProd: Prod | Prod ListProd;
+Prod: NT ':' Elems ';' | '_' ':' Terms ';';
+Terms: T | T '%prob' nprob | T '%prob' nprob '|' Terms| T '|' Terms;
+Elems : Elem| Elem '|' Elems;
+Elem : L '%prob' nprob | L;
+L :  NT L | T L | T | NT;
+NT : 'A'NT | 'B'NT | 'A' | 'B';
+T : '\'' 'c' '\'' | '\'' 'd' '\'';
+nprob: '0.5';

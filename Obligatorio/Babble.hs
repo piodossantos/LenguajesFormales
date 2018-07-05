@@ -197,3 +197,5 @@ testGrammar = map (Grammar.parseCalc.Tokens.alexScanTokens) grammars
 
 testParseUnParse::[BabbleGrammar]
 testParseUnParse = map (Grammar.parseCalc.Tokens.alexScanTokens.unparseGrammar) testGrammar
+
+babbleGenerator = "Babble: NT ':' Elems ';' | NT ':' Elems ';' ListProd; ListProd: Prod | Prod ListProd; Prod: NT ':' Elems ';' | '_' ':' Terms ';'; Terms: T | T '%prob' nprob | T '%prob' nprob '|' Terms| T '|' Terms; Elems : Elem| Elem '|' Elems; Elem : L '%prob' nprob | L; L :  NT L | T L | T | NT; NT : 'A'NT | 'B'NT | 'A' | 'B'; T : '\\\'' 'c' '\\\'' | '\\\'' 'd' '\\\''; nprob: '0.5';"
