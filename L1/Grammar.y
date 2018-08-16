@@ -93,6 +93,10 @@ BExpresion :
     | '(' BExpresion ')' {$2}
     | List '!=' List {$1 /= $3}
     | List '==' List {$1 == $3}
+    | List 'e' List {elem (Listing $1) $3}
+    | AExpresion 'e' List {elem (Numerical $1) $3}
+    | BExpresion 'e' List {elem (Boolean $1) $3}
+
 
 AExpresion : num { read $1::Double}
     | AExpresion '*' AExpresion {$1 * $3}
