@@ -57,17 +57,15 @@ Expresion : BExpresion {(Boolean $1)}
     | AExpresion {(Numerical $1)}
     | List {Listing $1}
     |List '+' List { Listing (( $1) ++ ( $3))}
-    |List '!=' List { Listing (( $1) ++ ( $3))}
+    |List '!=' List { Boolean ($1 /= $3)}
     |List '==' List { Boolean ($1 == $3)}
-    |'#' List %prec COUNT { Numerical (fromIntegral(length($2))) }
-
-
-
-
-  
+    |'#' List  { Numerical (fromIntegral(length($2))) }
+    
 
 List : '['']' {[]}
     | '[' ElementList ']' {$2}
+    | '(' List ')' { $2}
+
 
 ElementList :
     List {[(Listing $1)]}
