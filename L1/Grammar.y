@@ -48,13 +48,21 @@ import Data.List
 %left '*' '/' '%' '//'
 %left '^'
 %left NEG
+%left COUNT
+
 %%
 
 
 Expresion : BExpresion {(Boolean $1)}
     | AExpresion {(Numerical $1)}
-    | List {(Listing $1)}
+    | List {Listing $1}
+    |List '+' List { Listing (( $1) ++ ( $3))}
+    |List '!=' List { Listing (( $1) ++ ( $3))}
+    |List '==' List { Boolean ($1 == $3)}
 
+
+
+  
 
 List : '['']' {[]}
     | '[' ElementList ']' {$2}
@@ -99,8 +107,8 @@ AExpresion : num { read $1::Double}
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
-data EvaluationResult = Boolean Bool | Numerical Double | Listing [EvaluationResult]
-    deriving(Show)
+data EvaluationResult = Boolean Bool | Numerical Double | Listing {conj :: [EvaluationResult]}
+    deriving(Show,Eq,Ord)
 main = do 
     contents <- getLine
     putStrLn (show (parseCalc (alexScanTokens  contents)))
