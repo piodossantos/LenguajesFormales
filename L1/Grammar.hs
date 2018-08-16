@@ -556,7 +556,7 @@ happyReduce_7 = happySpecReduce_2  4 happyReduction_7
 happyReduction_7 (HappyAbsSyn5  happy_var_2)
 	_
 	 =  HappyAbsSyn4
-		 (Numerical (length(conj happy_var_2))
+		 (Numerical (fromIntegral(length(happy_var_2)))
 	)
 happyReduction_7 _ _  = notHappyAtAll 
 
@@ -900,7 +900,7 @@ happySeq = happyDontSeq
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
-data EvaluationResult = Boolean Bool | Numerical Double | Listing {conj :: [EvaluationResult]}
+data EvaluationResult = Boolean Bool | Numerical Double | Listing [EvaluationResult]
     deriving(Show,Eq,Ord)
 main = do 
     contents <- getLine

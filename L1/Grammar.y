@@ -59,6 +59,8 @@ Expresion : BExpresion {(Boolean $1)}
     |List '+' List { Listing (( $1) ++ ( $3))}
     |List '!=' List { Listing (( $1) ++ ( $3))}
     |List '==' List { Boolean ($1 == $3)}
+    |'#' List %prec COUNT { Numerical (fromIntegral(length($2))) }
+
 
 
 
@@ -107,7 +109,7 @@ AExpresion : num { read $1::Double}
 parseError :: [Token] -> a
 parseError _ = error "Parse error"
 
-data EvaluationResult = Boolean Bool | Numerical Double | Listing {conj :: [EvaluationResult]}
+data EvaluationResult = Boolean Bool | Numerical Double | Listing [EvaluationResult]
     deriving(Show,Eq,Ord)
 main = do 
     contents <- getLine
