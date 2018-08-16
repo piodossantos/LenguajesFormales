@@ -41,30 +41,31 @@ import Data.List
 
 
 %nonassoc '>' '<' '<=' '>=' '==' '!='
+%left '#'
+%left 'e'
 %left '||'
 %left '&&'
 %right '!'
 %left '+' '-'
 %left '*' '/' '%' '//'
 %left '^'
+%left ','
 %left NEG
-%left COUNT
-
 %%
 
 
 Expresion : BExpresion {(Boolean $1)}
     | AExpresion {(Numerical $1)}
     | List {Listing $1}
-    |List '+' List { Listing (( $1) ++ ( $3))}
-    |List '!=' List { Boolean ($1 /= $3)}
-    |List '==' List { Boolean ($1 == $3)}
-    |'#' List  { Numerical (fromIntegral(length($2))) }
-    
+
+
+
+
 
 List : '['']' {[]}
     | '[' ElementList ']' {$2}
     | '(' List ')' { $2}
+    | List '+' List {$1 ++ $3}
 
 
 ElementList :
@@ -90,6 +91,8 @@ BExpresion :
     | BExpresion '&&' BExpresion { $1 && $3}
     | BExpresion '||' BExpresion { $1 || $3}
     | '(' BExpresion ')' {$2}
+    | List '!=' List {$1 /= $3}
+    | List '==' List {$1 == $3}
 
 AExpresion : num { read $1::Double}
     | AExpresion '*' AExpresion {$1 * $3}
@@ -101,6 +104,7 @@ AExpresion : num { read $1::Double}
     | AExpresion '-' AExpresion {$1 - $3}
     | '-' AExpresion %prec NEG { -$2 }
     | '(' AExpresion ')' {$2}
+    |'#' List  { (fromIntegral(length($2))) }
 
 
 {
